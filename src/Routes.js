@@ -28,7 +28,18 @@ const Routes = () => {
     if (initializing) return null;
 
     if (user) {
-        return <Text style={{ height: 22, margin: 12, }}>Weeeeeelcome</Text>
+
+        const logout = () => {
+            auth()
+                .signOut()
+                .then(() => console.log('User signed out!'));
+        }
+
+        return (
+            <>
+                <Text style={{ height: 22, margin: 12, }}>Weeeeeelcome</Text>
+                <Text onPress={logout}>logout</Text>
+            </>)
     }
 
     return (
