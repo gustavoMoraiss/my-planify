@@ -46,6 +46,11 @@ const Signup = ({ navigation }) => {
 
   const onSubmit = () => {
 
+    if (!values.first_name || !values.last_name) {
+      Alert.alert("Please, enter first name and last name.")
+      return;
+    }
+
     if (values.password !== values.confirm_password) {
       Alert.alert("Passwords do not match!")
       return
@@ -59,7 +64,7 @@ const Signup = ({ navigation }) => {
     auth()
       .createUserWithEmailAndPassword(values.email, values.password)
       .then(() => {
-        Alert.alert('User account created & signed in!');
+        auth().currentUser.updateProfile({ displayName: `${values.first_name} ${values.last_name}` });
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -78,7 +83,7 @@ const Signup = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Title>Join the hub!</Title>
-        <Input onChangeText={(val) => onChange(val, "firts_name")} placeholder={'First name'} />
+        <Input onChangeText={(val) => onChange(val, "first_name")} placeholder={'First name'} />
         <Input onChangeText={(val) => onChange(val, "last_name")} placeholder={'Last name'} />
         <Input onChangeText={(val) => onChange(val, "email")} placeholder={'E-mail'} keyboardType="email-address" />
         <Input onChangeText={(val) => onChange(val, "password")} placeholder={'Password'} secureTextEntry />
