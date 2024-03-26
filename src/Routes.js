@@ -10,7 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/app/Home';
 import Tasks from './screens/app/Tasks';
 import AddTasks from './screens/app/AddTasks';
-import { Text } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,9 +50,23 @@ const Routes = () => {
     // }
 
     const Tabs = () => (
-        <Tab.Navigator>
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Tasks" component={Tasks} />
+        <Tab.Navigator screenOptions={{ tabBarShowLabel: false , headerShown: false}}>
+            <Tab.Screen
+                name="Home"
+                component={Home}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image style={style.icon} source={focused ? require('./assets/home_active.png') : require('./assets/home_inactive.png')} />
+                    )
+                }} />
+            <Tab.Screen
+                name="Tasks"
+                component={Tasks}
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <Image style={style.icon} source={focused ? require('./assets/calendar_active.png') : require('./assets/calendar_inactive.png')} />
+                    )
+                }} />
         </Tab.Navigator>
     )
 
@@ -73,5 +87,12 @@ const Routes = () => {
         </Stack.Navigator>
     );
 };
+
+const style = StyleSheet.create({
+    icon: {
+        width: 24,
+        height: 24
+    }
+})
 
 export default React.memo(Routes);
