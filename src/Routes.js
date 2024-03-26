@@ -11,6 +11,7 @@ import Home from './screens/app/Home';
 import Tasks from './screens/app/Tasks';
 import AddTasks from './screens/app/AddTasks';
 import { Image, StyleSheet, Text } from 'react-native';
+import DrawerContent from './components/DrawerContent';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,21 +51,21 @@ const Routes = () => {
     // }
 
     const Tabs = () => (
-        <Tab.Navigator screenOptions={{ tabBarShowLabel: false , headerShown: false}}>
+        <Tab.Navigator screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
             <Tab.Screen
                 name="Home"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <Image style={style.icon} source={focused ? require('./assets/home_active.png') : require('./assets/home_inactive.png')} />
+                        <Image style={style.icon} source={focused ? require('./assets/resources/home_active.png') : require('./assets/resources/home_inactive.png')} />
                     )
                 }} />
             <Tab.Screen
                 name="Tasks"
                 component={Tasks}
                 options={{
-                    tabBarIcon: ({focused}) => (
-                        <Image style={style.icon} source={focused ? require('./assets/calendar_active.png') : require('./assets/calendar_inactive.png')} />
+                    tabBarIcon: ({ focused }) => (
+                        <Image style={style.icon} source={focused ? require('./assets/resources/calendar_active.png') : require('./assets/resources/calendar_inactive.png')} />
                     )
                 }} />
         </Tab.Navigator>
@@ -72,7 +73,7 @@ const Routes = () => {
 
     if (user) {
         return (
-            <Drawer.Navigator>
+            <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
                 <Drawer.Screen name="Tabs" component={Tabs} />
                 <Drawer.Screen name="AddTasks" component={AddTasks} />
             </Drawer.Navigator>

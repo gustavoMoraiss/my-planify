@@ -9,7 +9,7 @@ const Onboarding = ({navigation}) => {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require('../../../assets/onboarding.png')}
+          source={require('../../../assets/resources/onboarding.png')}
         />
         <View style={styles.footer} />
       </View>
