@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-    DrawerContentScrollView,
-    DrawerItemList,
+    DrawerContentScrollView
 } from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
 

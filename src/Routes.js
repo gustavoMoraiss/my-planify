@@ -35,21 +35,6 @@ const Routes = () => {
 
     if (initializing) return null;
 
-    // if (user) {
-
-    //     const logout = () => {
-    //         auth()
-    //             .signOut()
-    //             .then(() => console.log('User signed out!'));
-    //     }
-
-    //     return (
-    //         <>
-    //             <Text style={{ height: 22, margin: 12, }}>Weeeeeelcome</Text>
-    //             <Text onPress={logout}>logout</Text>
-    //         </>)
-    // }
-
     const Tabs = () => (
         <Tab.Navigator screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
             <Tab.Screen
@@ -73,7 +58,7 @@ const Routes = () => {
 
     if (user) {
         return (
-            <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+            <Drawer.Navigator screenOptions={{ headerShown: false }} drawerContent={props => <DrawerContent {...props} />}>
                 <Drawer.Screen name="Tabs" component={Tabs} />
                 <Drawer.Screen name="AddTasks" component={AddTasks} />
             </Drawer.Navigator>
