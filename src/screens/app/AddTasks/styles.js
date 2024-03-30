@@ -3,7 +3,6 @@ import colors from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
   },
   backContainer: {
     padding: 24
@@ -16,7 +15,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.black,
     marginHorizontal: 24,
-    fontFamily: 'Roboto-Medium'
+    fontFamily: 'Roboto-Medium',
+    marginTop: 12
   }
 });
 export default styles;
