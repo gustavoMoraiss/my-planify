@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: 'Roboto-Medium',
     marginTop: 12
+  },
+  button: {
+    margin: 24,
   }
 });
 export default styles;
