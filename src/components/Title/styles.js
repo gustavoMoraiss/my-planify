@@ -12,8 +12,9 @@ const styles = StyleSheet.create({
   thin: {
     fontWeight: '300',
     color: colors.purple,
-    fontFamily: 'Roboto-Light',
-    fontSize: 24
+    fontFamily: 'Roboto-Regular',
+    fontSize: 24,
+    paddingHorizontal: 24
   }
 });
 

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
@@ -11,6 +11,14 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     fontSize: 15,
   },
+  outlinedInput: {
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.grey,
+    marginHorizontal: 24
+
+  }
 });
 
 export default styles;
