@@ -5,10 +5,13 @@ import Title from '../../../components/Title';
 import Input from '../../../components/Input';
 import Categories from '../../../components/Categories';
 import { categories } from '../../../constants/categories';
+import DateInput from '../../../components/DateInput';
 
 const AddTasks = ({ navigation }) => {
 
   const [category, setCategory] = useState()
+  const [deadLine, setDealine] = useState(new Date())
+
 
   const handleBack = () => {
     navigation.goBack()
@@ -30,6 +33,9 @@ const AddTasks = ({ navigation }) => {
         categories={categories}
         selectedCategory={category}
         onCategoryPress={setCategory} />
+
+      <Text style={styles.label}>Deadline</Text>
+      <DateInput value={deadLine} onChange={setDealine}/>
     </SafeAreaView>
   );
 };
