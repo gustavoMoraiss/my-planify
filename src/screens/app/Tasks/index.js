@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import styles from './styles';
 import Header from '../../../components/Header';
@@ -9,26 +9,37 @@ import { useDispatch, useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import Checkbox from '../../../components/Checkbox';
 import { setToUpdate } from '../../../store/tasks';
+import Categories from '../../../components/Categories';
+import { categories } from '../../../constants/categories';
 
 const Tasks = () => {
   const dispatch = useDispatch();
-
   const tasks = useSelector(state => state.tasks.data)
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState('all');
+  const [filteredTasks, setFilteredTasks] = useState([]);
+
+  useEffect(() => {
+    if (category && category !== 'all') {
+      const filteredCategory = tasks?.filter(task => task?.category === category)
+      setFilteredTasks(filteredCategory)
+    } else {
+      setFilteredTasks(tasks)
+    }
+  }, [category, tasks])
 
   const onTaskUpdate = item => {
     firestore().collection('Tasks').doc(item?.uid).update({
       checked: !item.checked
     })
-    .then(() => {
+      .then(() => {
         dispatch(setToUpdate())
-    })
+      })
   }
 
   const renderTask = ({ item }) => {
     return (
       <View style={styles.row}>
-        <Checkbox checked={item?.checked} onPress={() => onTaskUpdate(item)}/>
+        <Checkbox checked={item?.checked} onPress={() => onTaskUpdate(item)} />
         <Text style={[styles.taskText, item?.checked ? styles.checked : {}]} >{item.title}</Text>
       </View>
     )
@@ -36,11 +47,17 @@ const Tasks = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={"Home"} />
+      <Header title={"Tasks"} />
 
       <FlatList
-        ListHeaderComponent={<Title type="thin">To Do Tasks</Title>}
-        data={tasks}
+        ListHeaderComponent={<View style={{ marginBottom: 24 }}>
+          <Title type="thin">To Do Tasks</Title>
+          <Categories
+            categories={[{ label: 'All', value: 'all' }, ...categories]}
+            selectedCategory={category}
+            onCategoryPress={setCategory} />
+        </View>}
+        data={filteredTasks}
         renderItem={renderTask}
         keyExtractor={item => String(item?.uid)} />
 
