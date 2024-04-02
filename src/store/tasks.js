@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     data: null,
+    toUpdate: null,
 }
 
 export const tasksSlice = createSlice({
@@ -10,10 +11,13 @@ export const tasksSlice = createSlice({
     reducers: {
         setTasks: (state, action) => {
             state.data = action.payload
+        },
+        setToUpdate: state => {
+            state.toUpdate = Math.random();
         }
     },
 })
 
-export const { setTasks } = tasksSlice.actions
+export const { setTasks, setToUpdate } = tasksSlice.actions
 
 export default tasksSlice.reducer
