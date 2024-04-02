@@ -1,62 +1,104 @@
-import React, { useState } from 'react';
-import { Alert, Image, Pressable, SafeAreaView, Text } from 'react-native';
-import styles from './styles';
-import Title from '../../../components/Title';
-import Input from '../../../components/Input';
-import Categories from '../../../components/Categories';
-import { categories } from '../../../constants/categories';
-import DateInput from '../../../components/DateInput';
-import Button from '../../../components/Button';
 import moment from 'moment';
+import React, { useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  Text,
+} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+
+import Button from '../../../components/Button';
+import Categories from '../../../components/Categories';
+import DateInput from '../../../components/DateInput';
+import Input from '../../../components/Input';
+import Title from '../../../components/Title';
+import { categories } from '../../../constants/categories';
+import styles from './styles';
 
 const AddTasks = ({ navigation }) => {
-
-  const [category, setCategory] = useState()
-  const [deadLine, setDealine] = useState(new Date())
-  const [titleTask, setTitleTask] = useState()
-
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState();
+  const [deadline, setDeadline] = useState(new Date());
+  const [loading, setLoading] = useState(false);
 
   const handleBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   const onSubmit = () => {
-
-    const todayFormatted = moment(new Date()).format('YYYY-MM-DD')
-    const deadlineFormatted = moment(deadLine).format('YYYY-MM-DD')
-
-
-    if (!titleTask) {
-      Alert.alert('Please enter the task tile')
+    const today = moment(new Date()).format('YYYY-MM-DD');
+    const deadlineFormatted = moment(deadline).format('YYYY-MM-DD');
+    if (!title) {
+      Alert.alert('Please enter the task title');
+      return;
+    }
+    if (moment(deadlineFormatted).isBefore(today)) {
+      Alert.alert('Please enter future date');
       return;
     }
 
-    if (moment(deadlineFormatted).isBefore(todayFormatted)) {
-      Alert.alert('Please enter the future date')
-    }
-  }
+    setLoading(true);
+    firestore()
+      .collection('Tasks')
+      .doc('ABC')
+      .set({
+        title,
+        deadline,
+        category,
+      })
+      .then(() => {
+        setLoading(false);
+        navigation.navigate('Tasks');
+        setTitle('');
+        setDeadline(new Date());
+        setCategory(null);
+      })
+      .catch(e => {
+        console.log('error when adding task :>> ', e);
+        setLoading(false);
+        Alert.alert(e.message);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Pressable style={styles.backContainer} onPress={handleBack}>
-        <Image style={styles.backIcon} source={require('../../../assets/resources/back.png')} />
+      <Pressable style={styles.backContainer} hitSlop={8} onPress={handleBack}>
+        <Image
+          style={styles.backIcon}
+          source={require('../../../assets/resources/back.png')}
+        />
       </Pressable>
 
-      <Title type="thin">Add New Task</Title>
+      <ScrollView>
+        <Title type="thin">Add New Task</Title>
 
-      <Text style={styles.label}>Describe the task</Text>
-      <Input value={titleTask} onChange={setTitleTask} outlined placeholder="Type here..." />
+        <Text style={styles.label}>Describe the task</Text>
+        <Input
+          value={title}
+          onChangeText={setTitle}
+          outlined
+          placeholder="Type here..."
+        />
 
-      <Text style={styles.label}>Type</Text>
-      <Categories
-        categories={categories}
-        selectedCategory={category}
-        onCategoryPress={setCategory} />
+        <Text style={styles.label}>Type</Text>
+        <Categories
+          categories={categories}
+          selectedCategory={category}
+          onCategoryPress={setCategory}
+        />
 
-      <Text style={styles.label}>Deadline</Text>
-      <DateInput value={deadLine} onChange={setDealine} />
+        <Text style={styles.label}>Deadline</Text>
+        <DateInput value={deadline} onChange={setDeadline} />
 
-      <Button style={styles.button} type={'blue'} onPress={onSubmit}>Add the Task</Button>
+        <Button style={styles.button} type="blue" onPress={onSubmit} isLoading={loading}>
+          Add the Task
+        </Button>
+
+      </ScrollView>
     </SafeAreaView>
   );
 };
