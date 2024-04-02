@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
 import Header from '../../../components/Header';
 import PlusIcon from '../../../components/PlusIcon';
@@ -72,6 +72,11 @@ const Home = ({ navigation }) => {
           <StatusCard label="Due Dealine" count={counts?.dueDeadline} type="error" />
           <StatusCard label="Quick Win" count={counts?.quickWin} />
         </View>
+
+        <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Tasks')}>
+          <Text style={styles.title}>Check all my tasks</Text>
+          <Text style={styles.subtitle}>See all tasks and filter them by categories you have selected when creating them</Text>
+        </TouchableOpacity>
       </ScrollView>
       <PlusIcon />
     </SafeAreaView>
