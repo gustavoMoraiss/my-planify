@@ -12,19 +12,23 @@ import Tasks from './screens/app/Tasks';
 import AddTasks from './screens/app/AddTasks';
 import { Image, StyleSheet, Text } from 'react-native';
 import DrawerContent from './components/DrawerContent';
+import { setUser } from './store/user';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const Routes = () => {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user.data)
+
     const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
 
     console.log("user", user)
 
     function onAuthStateChanged(user) {
-        setUser(user);
+        dispatch(setUser(user));
         if (initializing) setInitializing(false);
     }
 

@@ -5,8 +5,13 @@ import Header from '../../../components/Header';
 import PlusIcon from '../../../components/PlusIcon';
 import { ScrollView } from 'react-native-gesture-handler';
 import Title from '../../../components/Title';
+import { useSelector } from 'react-redux';
 
 const Home = ({ navigation }) => {
+
+  const user = useSelector((state) => state.user.data)
+
+  console.log('redux user:', user)
   return (
     <SafeAreaView style={styles.container}>
       <Header title={"Home"} />
