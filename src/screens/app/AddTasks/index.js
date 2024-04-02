@@ -1,7 +1,6 @@
 import moment from 'moment';
 import React, { useState } from 'react';
 import {
-  ActivityIndicator,
   Alert,
   Image,
   Pressable,
@@ -44,13 +43,15 @@ const AddTasks = ({ navigation }) => {
     }
 
     setLoading(true);
+    console.log('user', user)
     firestore()
       .collection('Tasks')
-      .doc(user?.uid)
-      .set({
+      .add({
         title,
         deadline,
         category,
+        checked: false,
+        userId: user?.uid
       })
       .then(() => {
         setLoading(false);
