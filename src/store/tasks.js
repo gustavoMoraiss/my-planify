@@ -4,16 +4,16 @@ const initialState = {
     data: null,
 }
 
-export const userSlice = createSlice({
-    name: 'user',
+export const tasksSlice = createSlice({
+    name: 'tasks',
     initialState,
     reducers: {
-        setUser: (state, action) => {
+        setTasks: (state, action) => {
             state.data = action.payload
         }
     },
 })
 
-export const { setUser } = userSlice.actions
+export const { setTasks } = tasksSlice.actions
 
-export default userSlice.reducer
+export default tasksSlice.reducer

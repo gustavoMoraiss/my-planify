@@ -5,11 +5,17 @@ import Header from '../../../components/Header';
 import PlusIcon from '../../../components/PlusIcon';
 import { ScrollView } from 'react-native-gesture-handler';
 import Title from '../../../components/Title';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import { setTasks } from '../../../store/tasks';
 
 const Home = ({ navigation }) => {
   const user = useSelector((state) => state.user.data)
+  const tasks = useSelector((state) => state.tasks.data)
+  const dispatch = useDispatch();
+
+  console.log(' tasks: ', tasks);
+
 
   useEffect(() => {
     firestore()
@@ -17,13 +23,19 @@ const Home = ({ navigation }) => {
       .where('userId', '==', user?.uid)
       .get()
       .then(querySnapshot => {
-        console.log('Total tasks: ', querySnapshot.size);
+
+        const tasksList = []
 
         querySnapshot.forEach(documentSnapshot => {
-          console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+          tasksList.push({
+            uid: documentSnapshot.id,
+            ...documentSnapshot.data() || {}
+          })
         });
+
+        dispatch(setTasks(tasksList))
       })
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>
