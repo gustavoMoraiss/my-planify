@@ -11,6 +11,7 @@ import Checkbox from '../../../components/Checkbox';
 import { setToUpdate } from '../../../store/tasks';
 import Categories from '../../../components/Categories';
 import { categories } from '../../../constants/categories';
+import TaskCard from '../../../components/TaskCard';
 
 const Tasks = () => {
   const dispatch = useDispatch();
@@ -38,10 +39,7 @@ const Tasks = () => {
 
   const renderTask = ({ item }) => {
     return (
-      <View style={styles.row}>
-        <Checkbox checked={item?.checked} onPress={() => onTaskUpdate(item)} />
-        <Text style={[styles.taskText, item?.checked ? styles.checked : {}]} >{item.title}</Text>
-      </View>
+      <TaskCard title={item.title} description={item.taskDescription} onPress={() => onTaskUpdate(item)} isDone={item?.checked}/>
     )
   }
 

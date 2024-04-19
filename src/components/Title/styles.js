@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Roboto-Medium',
     color: colors.black,
-    marginVertical: 24,
+    marginVertical: 12,
   },
   thin: {
     fontWeight: '300',

@@ -21,10 +21,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setToUpdate } from '../../../store/tasks';
 
 const AddTasks = ({ navigation }) => {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const user = useSelector(state => state.user.data)
   const [title, setTitle] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
   const [category, setCategory] = useState();
   const [deadline, setDeadline] = useState(new Date());
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,7 @@ const dispatch = useDispatch();
         title,
         deadline,
         category,
+        taskDescription,
         checked: false,
         userId: user?.uid
       })
@@ -61,6 +63,7 @@ const dispatch = useDispatch();
         dispatch(setToUpdate());
         navigation.navigate('Tasks');
         setTitle('');
+setTaskDescription('');
         setDeadline(new Date());
         setCategory(null);
       })
@@ -83,13 +86,16 @@ const dispatch = useDispatch();
       <ScrollView>
         <Title type="thin">Add New Task</Title>
 
-        <Text style={styles.label}>Describe the task</Text>
+        <Text style={styles.label}>Title Task</Text>
         <Input
           value={title}
           onChangeText={setTitle}
           outlined
           placeholder="Type here..."
         />
+
+        <Text style={styles.label}>Deadline</Text>
+        <DateInput value={deadline} onChange={setDeadline} />
 
         <Text style={styles.label}>Type</Text>
         <Categories
@@ -98,8 +104,17 @@ const dispatch = useDispatch();
           onCategoryPress={setCategory}
         />
 
-        <Text style={styles.label}>Deadline</Text>
-        <DateInput value={deadline} onChange={setDeadline} />
+
+
+        <Text style={styles.label}>Describe the task</Text>
+        <Input
+          value={taskDescription}
+          onChangeText={setTaskDescription}
+          outlined
+          placeholder="Type here..."
+          multiline={true}
+          numberOfLines={4}
+        />
 
         <Button style={styles.button} type="blue" onPress={onSubmit} isLoading={loading}>
           Add the Task
